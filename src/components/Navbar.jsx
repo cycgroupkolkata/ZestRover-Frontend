@@ -1,0 +1,135 @@
+import React, { useState } from "react";
+import { logo } from "./../assets/imges/icons-logo/index";
+import { IoReorderThreeOutline } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
+import { GrSend } from "react-icons/gr";
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="w-full border-b sticky top-0 z-50 bg-white shadow-sm">
+      <div className="w-full flex items-center justify-between py-4 px-6">
+        <div className="flex items-center">
+          <a className="text-2xl cursor-pointer font-bold text-blue-600 flex items-center">
+            <img src={logo} alt="ZestRover logo" className="w-60 h-16" />
+          </a>
+          <nav className="hidden md:flex ml-10 space-x-4">
+            <a
+              href="#"
+              className="relative text-gray-700 hover:text-blue-600 group font-semibold"
+            >
+              Home
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            </a>
+            <a
+              href="#"
+              className="relative text-gray-700 hover:text-blue-600 group"
+            >
+              About Us
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            </a>
+            <a
+              href="#"
+              className="relative text-gray-700 hover:text-blue-600 group"
+            >
+              Services
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            </a>
+            <a
+              href="#"
+              className="relative text-gray-700 hover:text-blue-600 group"
+            >
+              Offers
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            </a>
+            <a
+              href="#"
+              className="relative text-gray-700 hover:text-blue-600 group"
+            >
+              Blogs
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            </a>
+            <a
+              href="#"
+              className="relative text-gray-700 hover:text-blue-600 group"
+            >
+              Career
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            </a>
+            <a href="#" className="relative text-blue-600 group">
+              Contact
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
+            </a>
+          </nav>
+        </div>
+        <div className="hidden md:flex items-center space-x-4 ">
+          <button className="bg-blue-600 text-white px-4 py-2 rounded whitespace-nowrap text-center min-w-[150px] hover:bg-white hover:text-blue-500 transition-all duration-500 hover:delay-100 focus:outline-none flex flex-row justify-center items-center space-x-2">
+            <span>Enquiry Now</span> <GrSend size={24} />
+          </button>
+          <button className="border bg-white border-blue-600 text-blue-600 px-4 py-2 rounded whitespace-nowrap text-center min-w-[150px] hover:bg-blue-500 hover:text-white transition-all duration-500 hover:delay-100 focus:outline-none">
+            Sign In / Register
+          </button>
+        </div>
+        <div className="md:hidden flex items-center">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-gray-700 focus:outline-none"
+          >
+            {isOpen ? (
+              <IoMdClose
+                className="transition-transform transform scale-100"
+                color="#fff"
+                size={28}
+              />
+            ) : (
+              <IoReorderThreeOutline
+                className="transition-transform transform scale-100"
+                color="#fff"
+                size={28}
+              />
+            )}
+          </button>
+        </div>
+      </div>
+      {/* Mobile Navbar */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
+          isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <nav className="px-6 pb-4 space-y-2">
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            Home
+          </a>
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            About Us
+          </a>
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            Services
+          </a>
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            Offers
+          </a>
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            Blogs
+          </a>
+          <a href="#" className="block text-gray-700 hover:text-blue-600">
+            Career
+          </a>
+          <a href="#" className="block text-blue-600">
+            Contact
+          </a>
+          <button className="w-full flex flex-row justify-center items-center gap-3 bg-blue-600 text-white px-4 py-2 rounded mt-2 whitespace-nowrap text-center">
+            <span>Enquiry Now</span> <GrSend size={24} />
+          </button>
+          <button className="w-full border bg-white border-blue-600 text-blue-600 px-4 py-2 rounded mt-2 whitespace-nowrap text-center">
+            Sign In / Register
+          </button>
+        </nav>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;
