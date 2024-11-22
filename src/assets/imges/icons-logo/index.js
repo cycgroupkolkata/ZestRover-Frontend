@@ -1,4 +1,5 @@
 import logo from './logo.png'
+import icon1 from './icon1.png'
 
 
-export {logo}
+export {logo, icon1} 
