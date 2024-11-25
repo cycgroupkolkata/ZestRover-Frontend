@@ -194,10 +194,10 @@ const Navbar = () => {
               Services
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
             </a>
-            <a href="#" className="relative group font-medium">
+            <Link to={'/offers'} className="relative group font-medium">
               Offers
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-            </a>
+            </Link>
             <a href="#" className="relative group font-medium">
               Blogs
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
@@ -206,10 +206,10 @@ const Navbar = () => {
               Career
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
             </a>
-            <a href="#" className="relative text-blue-600 group font-medium">
+            <Link to={"/contact"} className="relative text-blue-600 group font-medium">
               Contact
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-            </a>
+            </Link>
           </nav>
         </div>
         <div className="hidden md:flex items-center space-x-4">
@@ -247,18 +247,18 @@ const Navbar = () => {
           <a href="#" className="block hover:text-blue-600">
             Services
           </a>
-          <a href="#" className="block hover:text-blue-600">
+          <Link to={'/offers'} className="block hover:text-blue-600">
             Offers
-          </a>
+          </Link>
           <a href="#" className="block hover:text-blue-600">
             Blogs
           </a>
           <a href="#" className="block hover:text-blue-600">
             Career
           </a>
-          <a href="#" className="block text-blue-600">
+          <Link to={"/contact"} className="block text-blue-600">
             Contact
-          </a>
+          </Link>
           <button className="w-full flex flex-row justify-center items-center gap-3 bg-blue-600 text-white px-4 py-2 rounded mt-2">
             <span>Enquiry Now</span> <GrSend size={24} />
           </button>

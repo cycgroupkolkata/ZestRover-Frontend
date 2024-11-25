@@ -9,8 +9,41 @@ import newzealand from "./newzealand.jpg";
 import northsouth from "./northsouth.jpg";
 import norway from "./norway.jpg";
 import istanbull from "./istanbull.jpg";
+import cta1 from "./cta1.png";
+import adv1 from "./adventure1.jpg";
+import adv2 from "./adventure2.jpg";
+import hotel from "./hotel.jpg";
+import flight from "./flight.jpg";
+import himachal from "./himachal.jpg";
+import kashmir2 from "./kashmir.jpg";
+import ladakh from "./ladakh.jpg";
+import christ from "./christ.jpg";
+import offer1 from "./offer1.jpg";
+import offer2 from "./offer2.jpg";
+import offer3 from "./offer3.jpg";
+import offer from "./offer.png";
+import adventure3 from "./adventure3.jpg";
 
-export { inter1, inter2, inter3, topDestinations };
+export {
+  inter1,
+  inter2,
+  inter3,
+  topDestinations,
+  cta1,
+  adv1,
+  adv2,
+  hotel,
+  flight,
+  kashmir2,
+  ladakh,
+  himachal,
+  christ,
+  offer1,
+  offer2,
+  offer3,
+  offer,
+  adventure3
+};
 
 const topDestinations = [
   { title: "Stunning Vietnam", img: northsouth },

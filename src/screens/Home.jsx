@@ -1,70 +1,6 @@
-// import React, { useState } from "react";
-// import { HomeBg, HomeBg3 } from "./../assets/imges/bg-images/index";
-// import { FlightSearchCard } from "../components";
-// import { GiCommercialAirplane } from "react-icons/gi";
-// import { FaHotel } from "react-icons/fa6";
-
-// const Home = () => {
-//   const [isFlight, setIsFlight] = useState(true);
-//   return (
-//     <div className=" bg-slate-300">
-//       <div
-//         className="flex flex-col space-y-10 items-center justify-center bg-cover bg-bottom"
-//         style={{
-//           backgroundImage: `url(${HomeBg})`,
-//           minHeight: "70vh", // Ensures at least half the screen height
-//           height: "calc(900% - 6rem)", // Dynamically adjusts height, ensuring responsiveness
-//         }}
-//       >
-//         <div className="text-center sm:text-left p-4 sm:p-8">
-//           <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight shadow-sm">
-//             Best Travel Experience
-//           </h1>
-//           <p className="text-white text-base sm:text-lg md:text-xl mt-4 sm:mt-6">
-//             Discover amazing places at exclusive deals
-//           </p>
-//         </div>
-
-//         {/* Main Content Wrapper */}
-//         <div className="text-center mx-2 bg-white/85 bg-opacity-70 text-black p-8 rounded-md z-30">
-//           {/* Tabs for Flight and Hotel */}
-//           <div className="bg-white shadow-xl -mt-40 rounded-md px-10 inline-flex items-center md:space-x-4 flex-wrap justify-center">
-//             <button
-//               onClick={() => setIsFlight(true)}
-//               className={`${
-//                 isFlight ? "text-blue-500" : "text-black"
-//               } mr-3 focus:outline-none bg-transparent px-2 md:px-4 py-2 bg-opacity-0 hover:bg-opacity-10`}
-//             >
-//               <GiCommercialAirplane size={40} className="focus:outline-none" />
-//               <span>Flight</span>
-//             </button>
-//             <button
-//               onClick={() => setIsFlight(false)}
-//               className={`${
-//                 !isFlight ? "text-blue-500" : "text-black"
-//               } focus:outline-none bg-transparent px-2 md:px-4 py-2 bg-opacity-0 hover:bg-opacity-10`}
-//             >
-//               <FaHotel size={40} className="focus:outline-none" />
-//               <span>Hotel</span>
-//             </button>
-//           </div>
-//           {/* Flight Search Card */}
-//           {isFlight ? <FlightSearchCard /> : <h1>Coming soon</h1>}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Home;
-
-
-
-
-
 import React, { useState } from "react";
 import { HomeBg, HomeBg2, HomeBg3, HomeBg4 } from "./../assets/imges/bg-images/index";
-import { CardCarousel, FlightSearchCard, HomeCarousels, HotelSearchCard } from "../components";
+import { CardCarousel, FlightSearchCard, HomeCarousels, HotelSearchCard, OffersCarousel } from "../components";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { FaHotel } from "react-icons/fa";
 
@@ -127,6 +63,7 @@ const Home = () => {
       </div>
       <HomeCarousels/>
       <CardCarousel/>
+      <OffersCarousel/>
     </div>
   );
 };
