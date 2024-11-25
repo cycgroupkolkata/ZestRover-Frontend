@@ -11,6 +11,8 @@ import CardCarousel from "./Carousels/CardCarousel";
 import Breadcrumb from "./Breadcrumb";
 import ChooseUs from "./ChooseUs";
 import OffersCarousel from "./Carousels/OffersCarousel";
+import AboutUsComponent from "./AboutUsComponent";
+import FAQ from "./FAQ";
 
 // Forms
 import ContactForm from "./Forms/ContactForm";
@@ -40,4 +42,6 @@ export {
   Cta2,
   ChooseUs,
   OffersCarousel,
+  AboutUsComponent,
+  FAQ
 };

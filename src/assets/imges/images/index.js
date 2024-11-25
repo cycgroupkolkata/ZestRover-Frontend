@@ -23,6 +23,7 @@ import offer2 from "./offer2.jpg";
 import offer3 from "./offer3.jpg";
 import offer from "./offer.png";
 import adventure3 from "./adventure3.jpg";
+import about from './about.jpg'
 
 export {
   inter1,
@@ -42,7 +43,8 @@ export {
   offer2,
   offer3,
   offer,
-  adventure3
+  adventure3,
+  about
 };
 
 const topDestinations = [
