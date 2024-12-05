@@ -53,22 +53,22 @@ const Navbar = () => {
               About Us
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
             </Link>
-            <a href="#" className="relative group font-medium">
+            <Link to={'/service'} className="relative group font-medium">
               Services
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-            </a>
+            </Link>
             <Link to={'/offers'} className="relative group font-medium">
               Offers
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
             </Link>
-            <a href="#" className="relative group font-medium">
+            <Link to={'/blogs'} className="relative group font-medium">
               Blogs
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-            </a>
-            <a href="#" className="relative group font-medium">
+            </Link>
+            <Link to={'/career'} className="relative group font-medium">
               Career
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
-            </a>
+            </Link>
             <Link to={"/contact"} className="relative text-blue-600 group font-medium">
               Contact
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
@@ -76,12 +76,12 @@ const Navbar = () => {
           </nav>
         </div>
         <div className="hidden md:flex items-center space-x-4">
-          <button className="bg-blue-600 text-white px-4 py-2 rounded whitespace-nowrap text-center min-w-[150px] hover:bg-white hover:text-blue-500 transition-all duration-500 hover:delay-100 focus:outline-none flex flex-row justify-center items-center space-x-2">
+          <Link to={'/enquiry'} className="bg-blue-600 text-white px-4 py-2 rounded whitespace-nowrap text-center min-w-[150px] hover:bg-white hover:text-blue-500 transition-all duration-500 hover:delay-100 focus:outline-none flex flex-row justify-center items-center space-x-2">
             <span>Enquiry Now</span> <GrSend size={24} />
-          </button>
-          <button className="border bg-white border-blue-600 text-blue-600 px-4 py-2 rounded whitespace-nowrap text-center min-w-[150px] hover:bg-blue-500 hover:text-white transition-all duration-500 hover:delay-100 focus:outline-none">
+          </Link>
+          <Link to={'/login'} className="border bg-white border-blue-600 text-blue-600 px-4 py-2 rounded whitespace-nowrap text-center min-w-[150px] hover:bg-blue-500 hover:text-white transition-all duration-500 hover:delay-100 focus:outline-none">
             Sign In / Register
-          </button>
+          </Link>
         </div>
         <div className="md:hidden flex items-center">
           <button
@@ -116,18 +116,18 @@ const Navbar = () => {
           <a href="#" className="block hover:text-blue-600">
             Blogs
           </a>
-          <a href="#" className="block hover:text-blue-600">
+          <Link to={'/career'} className="block hover:text-blue-600">
             Career
-          </a>
+          </Link>
           <Link to={"/contact"} className="block text-blue-600">
             Contact
           </Link>
-          <button className="w-full flex flex-row justify-center items-center gap-3 bg-blue-600 text-white px-4 py-2 rounded mt-2">
+          <Link to={'/enquiry'} className="w-full flex flex-row justify-center items-center gap-3 bg-blue-600 text-white px-4 py-2 rounded mt-2 mb-3">
             <span>Enquiry Now</span> <GrSend size={24} />
-          </button>
-          <button className="w-full border bg-white border-blue-600 text-blue-600 px-4 py-2 rounded mt-2">
+          </Link>
+          <Link to={'/login'} className="w-full border bg-white border-blue-600 text-blue-600 px-4 py-2 rounded mt-2">
             Sign In / Register
-          </button>
+          </Link>
         </nav>
       </div>
     </div>

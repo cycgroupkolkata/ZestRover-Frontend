@@ -3,9 +3,14 @@ import "tailwindcss/tailwind.css";
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 
-const Travellers = ({adults,setAdults,children,setChildren,infants,setInfants}) => {
-
-
+const Travellers = ({
+  adults,
+  setAdults,
+  children,
+  setChildren,
+  infants,
+  setInfants,
+}) => {
   const Counter = ({ label, subLabel, count, onDecrement, onIncrement }) => (
     <div className="flex items-center justify-between py-4">
       <div>
@@ -35,24 +40,24 @@ const Travellers = ({adults,setAdults,children,setChildren,infants,setInfants}) 
       <Counter
         label="Adults"
         count={adults}
-        onDecrement={() => setAdults(adults > 0 ? adults - 1 : 0)}
-        onIncrement={() => setAdults(adults + 1)}
+        onDecrement={() => setAdults((prev) => (prev > 0 ? prev - 1 : 0))}
+        onIncrement={() => setAdults((prev) => prev + 1)}
       />
       <hr />
       <Counter
         label="Children"
         subLabel="Age 2y - 12y"
         count={children}
-        onDecrement={() => setChildren(children > 0 ? children - 1 : 0)}
-        onIncrement={() => setChildren(children + 1)}
+        onDecrement={() => setChildren((prev) => (prev > 0 ? prev - 1 : 0))}
+        onIncrement={() => setChildren((prev) => prev + 1)}
       />
       <hr />
       <Counter
         label="Infants"
         subLabel={"Age 0y - 2y"}
         count={infants}
-        onDecrement={() => setInfants(infants > 0 ? infants - 1 : 0)}
-        onIncrement={() => setInfants(infants + 1)}
+        onDecrement={() => setInfants((prev) => (prev > 0 ? prev - 1 : 0))}
+        onIncrement={() => setInfants((prev) => prev + 1)}
       />
     </div>
   );

@@ -11,16 +11,18 @@ import {
 } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import clsx from "clsx";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import Travellers from "./Travellers";
 import { FaExchangeAlt } from "react-icons/fa";
-import { GiCommercialAirplane } from "react-icons/gi";
 
 import AirportAutoComplete from "./AirportAutoComplete";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/ReactToastify.css";
 
 const classes = [
-  { id: 1, name: "Economy/Premium Economy" },
+  { id: 1, name: "Economy" },
   { id: 2, name: "Premium Economy" },
   { id: 3, name: "Business" },
   { id: 4, name: "First Class" },
@@ -33,17 +35,30 @@ const bags = [
   { id: 5, name: "4 Bags" },
 ];
 
-const FlightSearchCard = () => {
-  const [isReturn, setIsReturn] = useState(false);
-  const [selectedClass, setSelectedClass] = useState(classes[1]);
-  const [selectedBag, setSelectedBag] = useState(bags[0]);
-  const [departureDate, setDepartureDate] = useState("");
-  const [adults, setAdults] = useState(2);
-  const [children, setChildren] = useState(1);
-  const [infants, setInfants] = useState(0);
-  const [selectedFrom, setSelectedFrom] = useState(null);
-  const [selectedTo, setSelectedTo] = useState(null);
+const FlightSearchCard = ({
+  isRtn = false,
+  selCls = 0,
+  selBag = 0,
+  depDate = "",
+  retDate = "",
+  adl = 1,
+  child = 0,
+  inf = 0,
+  from = null,
+  to = null,
+}) => {
+  const [isReturn, setIsReturn] = useState(isRtn);
+  const [selectedClass, setSelectedClass] = useState(classes[selCls]);
+  const [selectedBag, setSelectedBag] = useState(bags[selBag]);
+  const [departureDate, setDepartureDate] = useState(depDate);
+  const [returnDate, setReturnDate] = useState(retDate);
+  const [adults, setAdults] = useState(adl);
+  const [children, setChildren] = useState(child);
+  const [infants, setInfants] = useState(inf);
+  const [selectedFrom, setSelectedFrom] = useState(from);
+  const [selectedTo, setSelectedTo] = useState(to);
   const [isRotated, setIsRotated] = useState(false);
+  const navigate = useNavigate();
 
   //   const formatDate = (date) => {
   //     const newDate = new Date(date == "" ? new Date() : date);
@@ -63,6 +78,33 @@ const FlightSearchCard = () => {
     console.log(selectedFrom);
     console.log(selectedTo);
     setIsRotated(!isRotated); // Toggle rotation state
+  };
+
+  const handleSubmit = () => {
+    if (selectedFrom === null) {
+      toast.warning("Select From");
+      return;
+    }
+    if (selectedTo === null) {
+      toast.warning("Select To");
+      return;
+    }
+    if (departureDate === "") {
+      toast.warning("Select Departure Date");
+      return;
+    }
+
+    navigate(
+      `/flight-search?class=${selectedClass.id}&noBags=${selectedBag.id}&depDate=${departureDate}&retDate=${returnDate}&adult=${adults}&child=${children}&infants=${infants}&return=${isReturn}`,
+      {
+        state: {
+          from: selectedFrom,
+          to: selectedTo,
+        },
+      }
+    );
+
+
   };
 
   return (
@@ -170,31 +212,8 @@ const FlightSearchCard = () => {
         </div>
       </div>
 
-      <div className="bg-white shadow-md rounded-lg px-6 py-2 w-full m-5 border max-w-md sm:max-w-6xl">
+      <div className="bg-white shadow-md rounded-lg px-6 py-2 w-full my-5 border max-w-md sm:max-w-6xl">
         <div className="flex flex-col sm:flex-row flex-wrap justify-between items-center gap-4">
-          {/* Flying From */}
-          {/* <div className="">
-            <div className="w-full sm:flex-1 text-left">
-              <div className="text-sm font-semibold text-gray-800">
-                Flying From
-              </div>
-              <div className=" text-gray-500">
-                <AirportAutoComplete />
-              </div>
-              <hr className="sm:hidden my-2" />
-            </div>
-
-            <div className="w-full sm:flex-1 text-left">
-              <div className="text-sm font-semibold text-gray-800">
-                Flying To
-              </div>
-              <div className="text-sm text-gray-500">
-                Where are you flying to?
-              </div>
-              <hr className="sm:hidden my-2" />
-            </div>
-          </div> */}
-
           <div className="flex bg-white w-full flex-col sm:flex-row sm:items-center gap-4 ">
             {/* Flying From */}
             <div className="w-full sm:flex-1 text-left">
@@ -203,6 +222,12 @@ const FlightSearchCard = () => {
               </div>
               {/* <div className="text-gray-500"> */}
               <AirportAutoComplete
+                // q={`${selectedFrom ? selectedFrom.CityName : ""} ${selectedFrom?`(${selectedFrom.Code}`:""}`}
+                q={
+                  selectedFrom === null
+                    ? ""
+                    : `${selectedFrom.CityName} (${selectedFrom.Code})`
+                }
                 placeholder={"From"}
                 selectedAirport={selectedFrom}
                 setSelectedAirport={setSelectedFrom}
@@ -233,6 +258,12 @@ const FlightSearchCard = () => {
               </div>
               {/* <div className="text-gray-500"> */}
               <AirportAutoComplete
+                // q={`${selectedTo ? selectedFrom.CityName : ""} ${selectedTo?`(${selectedTo.Code})`:""}`}
+                q={
+                  selectedTo === null
+                    ? ""
+                    : `${selectedTo.CityName} (${selectedTo.Code})`
+                }
                 placeholder={"To"}
                 selectedAirport={selectedTo}
                 setSelectedAirport={setSelectedTo}
@@ -262,6 +293,8 @@ const FlightSearchCard = () => {
             <div className="text-sm text-gray-500">
               <input
                 disabled={!isReturn}
+                value={returnDate}
+                onChange={(e) => setReturnDate(e.target.value)}
                 type="date"
                 className="text-lg bg-transparent outline-none focus:outline-none text-gray-500"
               />
@@ -277,7 +310,10 @@ const FlightSearchCard = () => {
             {/* <div className="text-sm text-gray-500">
               2 adults - 1 child - 1 room
             </div> */}
-            <Menu as="div" className="relative  inline-block text-left outline-none border-none">
+            <Menu
+              as="div"
+              className="relative  inline-block text-left outline-none border-none"
+            >
               <div>
                 <MenuButton className="inline-flex border-none outline-none focus:outline-none w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm  hover:bg-gray-50">
                   {adults} adults - {children} child - {infants}
@@ -307,7 +343,11 @@ const FlightSearchCard = () => {
 
           {/* Search Button */}
           <div className="w-full sm:w-auto text-center sm:ml-4">
-            <button className="bg-blue-900 space-x-4 focus:outline-none hover:bg-blue-700 transition-all duration-200 hover:delay-100 text-white px-6 py-3 rounded-lg flex justify-center items-center shadow-lg w-full sm:w-auto">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="bg-blue-900 space-x-4 focus:outline-none hover:bg-blue-700 transition-all duration-200 hover:delay-100 text-white px-6 py-3 rounded-lg flex justify-center items-center shadow-lg w-full sm:w-auto"
+            >
               <FaSearch size={24} /> <span>Search</span>
             </button>
           </div>

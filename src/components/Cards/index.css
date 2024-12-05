@@ -1,0 +1,22 @@
+/* index.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.hotel-card:hover .hotel-image {
+    transform: scale(1.1);
+}
+
+.hotel-card:hover .underline {
+    width: 100%;
+}
+
+.hotel-card {
+    cursor: pointer;
+}
+
+.underline {
+    width: 0;
+}

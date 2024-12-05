@@ -4,7 +4,7 @@ import { adv1, adv2, flight, hotel } from "../assets/imges/images";
 
 export const ChooseUs = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-white mt-2">
       <TextParallaxContent
         // imgUrl="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3"
         imgUrl={adv1}

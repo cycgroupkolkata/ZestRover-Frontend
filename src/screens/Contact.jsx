@@ -3,6 +3,8 @@ import { Breadcrumb, ChooseUs, ContactForm, Cta1 } from "../components";
 import { ContactBg } from "../assets/imges/bg-images";
 import { motion, useScroll, useTransform } from "framer-motion";
 
+
+
 const Contact = () => {
   return (
     <>

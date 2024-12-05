@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { HomeBg, HomeBg2, HomeBg3, HomeBg4 } from "./../assets/imges/bg-images/index";
-import { CardCarousel, FlightSearchCard, HomeCarousels, HotelSearchCard, OffersCarousel } from "../components";
+import { BlogsCarousel, CardCarousel, DomesticPakcages, FlightSearchCard, HomeCarousels, HotelSearchCard, OffersCarousel, ServiceCarousel,  } from "../components";
 import { GiCommercialAirplane } from "react-icons/gi";
 import { FaHotel } from "react-icons/fa";
 
 const Home = () => {
-  const [isFlight, setIsFlight] = useState(true);
+  const [isFlight, setIsFlight] = useState(false);
 
   return (
     <div className="bg-slate-300 -mt-28">
@@ -15,10 +15,8 @@ const Home = () => {
           backgroundImage: `url(${HomeBg2})`,
         }}
       >
-        {/* Dark Overlay */}
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-        {/* Hero Section */}
         <div className="text-center mt-20  sm:text-left p-8 sm:p-12 z-10 max-w-4xl mx-auto">
           <h1 className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight shadow-lg drop-shadow-lg">
           Find Next Place To Visit
@@ -28,9 +26,7 @@ const Home = () => {
           </p>
         </div>
 
-        {/* Main Content Wrapper */}
         <div className="text-center mx-4 sm:mx-10 md:-mt-5 bg-white/90 text-black p-8 sm:p-10 rounded-lg shadow-2xl z-30 relative max-w-3xl w-full mt-12">
-          {/* Tabs for Flight and Hotel */}
           <div className="bg-white shadow-xl rounded-md px-8 py-4 flex items-center space-x-8 justify-center mb-8">
             <button
               onClick={() => setIsFlight(true)}
@@ -51,7 +47,6 @@ const Home = () => {
               <span className="font-medium">Hotel</span>
             </button>
           </div>
-          {/* Content for Flight Search Card or Coming Soon */}
           {isFlight ? (
             <FlightSearchCard />
           ) : (
@@ -61,9 +56,14 @@ const Home = () => {
           )}
         </div>
       </div>
+
       <HomeCarousels/>
       <CardCarousel/>
       <OffersCarousel/>
+      <DomesticPakcages/>
+      <ServiceCarousel/>
+      <BlogsCarousel/>
+      
     </div>
   );
 };

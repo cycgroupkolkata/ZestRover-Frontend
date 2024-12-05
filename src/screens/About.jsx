@@ -5,11 +5,11 @@ const About = () => {
   return (
     <>
     <Breadcrumb pageName={"About"}/>
+    <ChooseUs/>
         <AboutUsComponent/>
-        <ChooseUs/>
+        
         <FAQ/>
     </>
   )
 }
-
 export default About

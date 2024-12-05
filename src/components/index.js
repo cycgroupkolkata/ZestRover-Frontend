@@ -13,9 +13,21 @@ import ChooseUs from "./ChooseUs";
 import OffersCarousel from "./Carousels/OffersCarousel";
 import AboutUsComponent from "./AboutUsComponent";
 import FAQ from "./FAQ";
+import RecentSidePosts from "./RecentSidePosts";
+import RecentSideBlog from "./RecentSideBlog";
+import ServiceCarousel from "./Carousels/ServiceCarousel";
+
+// Cards
+import ToursCard from "./Cards/ToursCard";
+import BlogCard from "./Cards/BlogCard";
+import FlightCard from "./Cards/FlightCard";
+import HotelCard from "./Cards/HotelCard";
+import FlightDetails from "./Cards/FlightDetails";
 
 // Forms
 import ContactForm from "./Forms/ContactForm";
+import TourPackageForm from "./Forms/TourPackageForm";
+import DomesticPakcages from "./Carousels/DomesticPakcages";
 
 // CTA
 import Cta1 from "./CTA/Cta1";
@@ -23,6 +35,17 @@ import Cta2 from "./CTA/Cta2";
 
 //Shimmer screens
 import CardCarouselShimmer from "./Shimmers/CardCarouselShimmer";
+import TourPackageShimer from "./Shimmers/TourPackageShimer";
+import ServicesShimmer from "./Shimmers/ServicesShimmer";
+import BlogsCarousel from "./Carousels/BlogsCarousel";
+import SidebarShimmer from "./Shimmers/SidebarShimmer";
+import HotelContentShimmer from "./Shimmers/HotelContentShimmer";
+import FlightsMainShimmer from "./Shimmers/FlightsMainShimmer";
+
+
+// Hotels
+import Facilities from "./Hotels/Facilities";
+
 
 export {
   Navbar,
@@ -43,5 +66,22 @@ export {
   ChooseUs,
   OffersCarousel,
   AboutUsComponent,
-  FAQ
+  FAQ,
+  TourPackageForm,
+  TourPackageShimer,
+  RecentSidePosts,
+  DomesticPakcages,
+  ToursCard,
+  ServicesShimmer,
+  BlogCard,
+  RecentSideBlog,
+  BlogsCarousel,
+  ServiceCarousel,
+  FlightCard,
+  HotelCard,
+  SidebarShimmer,
+  HotelContentShimmer,
+  Facilities,
+  FlightsMainShimmer,
+  FlightDetails
 };

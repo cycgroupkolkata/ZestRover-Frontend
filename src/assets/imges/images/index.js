@@ -1,6 +1,3 @@
-import inter1 from "./inter1.png";
-import inter2 from "./inter2.png";
-import inter3 from "./inter3.png";
 import Singapore from "./singapoew.jpg";
 import dubai from "./dubai.jpg";
 import europe from "./europe.jpg";
@@ -24,6 +21,10 @@ import offer3 from "./offer3.jpg";
 import offer from "./offer.png";
 import adventure3 from "./adventure3.jpg";
 import about from './about.jpg'
+import inter1 from "./Inter1.png";
+import inter2 from "./inter2.png";
+import inter3 from "./inter3.png";
+import joinus from "./joinus.jpg";
 
 export {
   inter1,
@@ -44,7 +45,8 @@ export {
   offer3,
   offer,
   adventure3,
-  about
+  about,
+  joinus  
 };
 
 const topDestinations = [

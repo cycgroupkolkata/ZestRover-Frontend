@@ -10,8 +10,9 @@ const AirportAutoComplete = ({
   setSelectedAirport,
   placeholder,
   from = false,
+  q=""
 }) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(q);
   const [filteredAirports, setFilteredAirports] = useState([]);
   //   const [selectedAirport, setSelectedAirport] = useState(null);
 

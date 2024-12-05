@@ -6,23 +6,78 @@ import Travellers from "./Travellers";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import HotelTravellers from "./HotelTravellers";
 import Datepicker from "react-tailwindcss-datepicker";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { Listbox } from '@headlessui/react';
+import FlightSearchCard from "./FlightSearchCard";
+import { flightSearchService } from "../services/FlightSearchService";
 
-const HotelSearchCard = () => {
-  const [adults, setAdults] = useState(2);
-  const [children, setChildren] = useState(1);
-  const [room, setRoom] = useState(1);
+
+const HotelSearchCard = ({
+  loc = "",
+  adl = 2,
+  child = 1,
+  rm = 1,
+  dates = {
+    startDate: new Date(Date.now()),
+    endDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  },
+}) => {
+  const navigate = useNavigate();
+  const [adults, setAdults] = useState(adl);
+  const [children, setChildren] = useState(child);
+  const [room, setRoom] = useState(rm);
   const [isFocused, setIsFocused] = useState(false);
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
-  const [date, setDate] = useState({
-    startDate: new Date(Date.now()),
-    endDate: null,
-  });
+
+  const [date, setDate] = useState(dates);
+  const [location, setLocation] = useState(loc);
+  const [selectedLocation,setSelectedLocation]=useState('')
+  const [suggestion, setSuggestion] = useState([]);
 
 
-  useEffect(()=>{
-    console.log(date)
-  },[date])
+  const handleInputChange = (e) => {
+    setLocation(e.target.value);
+  };
+
+
+  const handleSearch = () => {
+    navigate(
+      `/hotel-search?location=${location}&adults=${adults}&child=${children}&rooms=${room}`,
+      {
+        state: {
+          date: date,
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (location.length > 2) {
+      const fetchSuggestions = async () => {
+        try {
+          const response = await fetch(`https://travelportalapi.benzyinfotech.com/api/content/autosuggest?term=${location}`);
+          const data = await response.json();
+          console.log(data)
+          setSuggestion(data);
+          // const data=await flightSearchService.generateSignature();
+        } catch (error) {
+          console.error('Error fetching suggestion:', error);
+        }
+      };
+
+      fetchSuggestions();
+    } else {
+      setSuggestion([]);
+    }
+  }, [location]);
+
+  const formatDate = (dateString) => {
+    const options = { month: "short", day: "numeric" }; // Only show abbreviated month and day
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", options);
+  };
 
   return (
     <>
@@ -33,11 +88,51 @@ const HotelSearchCard = () => {
             Location
           </label>
           <input
+            value={location}
+            onChange={handleInputChange}
             type="text"
             placeholder="Where are you going?"
             className="text-sm text-gray-500 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
         </div>
+
+
+
+      {/* Demo Start */}
+      <div className="flex flex-col w-full md:w-auto md:flex-1 pb-4 md:pb-0 border-b md:border-none text-left">
+      <label className="text-sm font-semibold text-gray-800">Location</label>
+      <Listbox value={selectedLocation} onChange={setSelectedLocation}>
+        {({ open }) => (
+          <>
+            <input
+              value={location}
+              onChange={handleInputChange}
+              type="text"
+              placeholder="Where are you going?"
+              className="text-sm text-gray-500 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+            {open && suggestion.length > 0 && (
+              <Listbox.Options className="absolute bg-white border border-gray-300 rounded-md shadow-lg mt-1 w-full max-h-60 overflow-auto z-10">
+                {suggestion.map((suggestion, index) => (
+                  <Listbox.Option key={index} value={suggestion} as="div">
+                    {({ active }) => (
+                      <div
+                        className={`p-2 text-sm ${active ? 'bg-blue-500 text-white' : 'text-gray-700'}`}
+                      >
+                        {suggestion}
+                      </div>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            )}
+          </>
+        )}
+      </Listbox>
+    </div>
+      {/* Demo END */}
+
+
 
         {/* Divider for larger screens */}
         <div className="hidden md:block border-l border-gray-300 h-10"></div>
@@ -54,7 +149,9 @@ const HotelSearchCard = () => {
           /> */}
           <Datepicker
             value={date}
-            placeholder={`${date.startDate.toDateString()}}`}
+            placeholder={`${formatDate(date.startDate)}}~${formatDate(
+              date.endDate
+            )}`}
             onChange={(newValue) => setDate(newValue)}
           />
         </div>
@@ -115,7 +212,10 @@ const HotelSearchCard = () => {
         {/* Search Button */}
       </div>
       <div className="flex w-full md:w-full md:flex-1 pb-4 md:pb-0 text-left my-2">
-        <button className="bg-blue-600 space-x-2 focus:outline-none transition-all hover:delay-100 duration-300 hover:bg-blue-900 text-white px-6 py-2 rounded-lg flex items-center justify-center w-full">
+        <button
+          onClick={handleSearch}
+          className="bg-blue-600 space-x-2 focus:outline-none transition-all hover:delay-100 duration-300 hover:bg-blue-900 text-white px-6 py-2 rounded-lg flex items-center justify-center w-full"
+        >
           <IoSearchSharp />
           <span>Search</span>
         </button>
