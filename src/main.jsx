@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, createRoutesFromChildren, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import { About, Blogs, BlogsPage, BookingPage, Career, Contact, Enquiry, FlightSearch, Home, HotelDetailsPage, HotelSearch, Loading, Login, NotFound, Offers, Service, Services, Signup, TourPackage } from './screens/index.js'
+import { About, Blogs, BlogsPage, BookingPage, Career, Contact, Enquiry, FlightBookingReviewPage, FlightSearch, Home, HotelDetailsPage, HotelSearch, ImageGalary, Loading, Login, NotFound, Offers, Service, Services, Signup, TourPackage } from './screens/index.js'
 import { TourPackageForm } from './components/index.js'
 import BlogForm from './components/Forms/BlogForm.jsx'
 import FlightBookingPage from './screens/FlightBookingPage.jsx'
@@ -33,7 +33,8 @@ const router=createBrowserRouter(
       <Route path='/signup' element={<Signup/>}/>
       <Route path='/career' element={<Career/>}/>
       <Route path='/loading' element={<Loading/>}/>
-
+      <Route path='/flight-details-review' element={<FlightBookingReviewPage/>}/>
+      <Route path={'/image-galary'} element={<ImageGalary/>}/>
     </Route>
   )
 )

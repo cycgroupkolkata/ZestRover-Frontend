@@ -3,7 +3,7 @@ import { FaCaretDown } from "react-icons/fa";
 import { FaCaretUp } from "react-icons/fa";
 
 const FlightDetails = ({ flight, SSR }) => {
-  const [showConnections, setShowConnections] = useState(false);
+  const [showConnections, setShowConnections] = useState(true);
   const renderFlightSegment = (segment, index) => {
     const {
       AirlineName,

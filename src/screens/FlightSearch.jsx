@@ -80,7 +80,6 @@ const FlightSearch = () => {
     loadingBarRef.current?.continuousStart();
     const signatureData = await flightSearchService.generateSignature();
     setSignData(signatureData);
-    console.log("signature", signatureData)
     setLoadingProgress(30);
     const initializeData = await flightSearchService.initializeSearch({
       adl: adult,
@@ -98,7 +97,6 @@ const FlightSearch = () => {
       isDirect: nonStop
     });
     setIntialData(initializeData);
-    console.log("init",initializeData)
 
     setLoadingProgress(50);
 
@@ -108,12 +106,10 @@ const FlightSearch = () => {
       jwtToken: signatureData.Token,
     });
 
-    console.log("flightData,",flightData)
 
     const trips = flightData.Trips;
 
     const journey = trips[0].Journey;
-    console.log(journey);
     setOriginalFLigts(journey);
     const fares = journey.map((item) => item.GrossFare);
     setShowMinPrice(Math.min(...fares));

@@ -58,7 +58,7 @@ const Home = () => {
       </div>
 
       <HomeCarousels/>
-      <CardCarousel/>
+      {/* <CardCarousel/> */}
       <OffersCarousel/>
       <DomesticPakcages/>
       <ServiceCarousel/>

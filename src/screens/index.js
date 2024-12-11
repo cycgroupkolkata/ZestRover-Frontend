@@ -21,6 +21,9 @@ import Login from "./Auth/Login";
 
 
 import Loading from "./Loading";
+import FlightBookingReviewPage from "./FlightBookingReviewPage";
+import ImageGalary from "./ImageGalary";
+
 
 export {
   Home,
@@ -41,5 +44,7 @@ export {
   Signup,
   Login,
   Career,
-  Loading
+  Loading,
+  FlightBookingReviewPage,
+  ImageGalary
 };

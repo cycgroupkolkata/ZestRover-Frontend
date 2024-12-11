@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -14,6 +13,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "@tailwindcss/typography": "^0.5.15",
     "@tinymce/tinymce-react": "^5.1.1",
     "axios": "^1.7.7",
     "clsx": "^2.1.1",
@@ -23,6 +23,8 @@
     "flowbite-react": "^0.10.2",
     "framer-motion": "^11.11.17",
     "jodit-react": "^4.1.2",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.8.5",
     "rc-slider": "^11.1.7",
     "react": "^18.3.1",
     "react-datepicker": "^7.5.0",
@@ -37,8 +39,7 @@
     "react-tailwindcss-datepicker": "^1.7.2",
     "react-toastify": "^10.0.6",
     "react-top-loading-bar": "^2.3.1",
-    "tw-elements-react": "^1.0.0-alpha-end",
-    "yet-another-react-lightbox": "^1.1.1"
+    "tw-elements-react": "^1.0.0-alpha-end"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
@@ -53,7 +54,9 @@
     "globals": "^15.11.0",
     "postcss": "^8.4.49",
     "react-icons": "^5.3.0",
+    "react-photo-album": "^3.0.2",
     "tailwindcss": "^3.4.14",
-    "vite": "^5.4.10"
+    "vite": "^5.4.10",
+    "yet-another-react-lightbox": "^3.21.7"
   }
 }

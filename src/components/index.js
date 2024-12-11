@@ -28,7 +28,7 @@ import FlightDetails from "./Cards/FlightDetails";
 import ContactForm from "./Forms/ContactForm";
 import TourPackageForm from "./Forms/TourPackageForm";
 import DomesticPakcages from "./Carousels/DomesticPakcages";
-
+import AddressForm from "./Forms/AddressForm";
 // CTA
 import Cta1 from "./CTA/Cta1";
 import Cta2 from "./CTA/Cta2";
@@ -41,7 +41,7 @@ import BlogsCarousel from "./Carousels/BlogsCarousel";
 import SidebarShimmer from "./Shimmers/SidebarShimmer";
 import HotelContentShimmer from "./Shimmers/HotelContentShimmer";
 import FlightsMainShimmer from "./Shimmers/FlightsMainShimmer";
-
+import HotelDetailsShimmer from "./Shimmers/HotelDetailsShimmer";
 
 // Hotels
 import Facilities from "./Hotels/Facilities";
@@ -83,5 +83,7 @@ export {
   HotelContentShimmer,
   Facilities,
   FlightsMainShimmer,
-  FlightDetails
+  FlightDetails,
+  AddressForm,
+  HotelDetailsShimmer
 };

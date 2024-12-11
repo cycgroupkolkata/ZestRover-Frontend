@@ -6,6 +6,7 @@ import CardCarouselShimmer from "../Shimmers/CardCarouselShimmer";
 import { tourService } from "../../services/TourService";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
+import { useCallback } from "react";
 
 
 const CardCarousel = () => {
@@ -17,7 +18,7 @@ const CardCarousel = () => {
 
   const [destinitions, setDestinitions] = useState([]);
 
-  const allDestinitions = async () => {
+  const allDestinitions =useCallback( async () => {
     try {
       setIsLoading(true);
       const data = await tourService.getAllTours();
@@ -27,7 +28,7 @@ const CardCarousel = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  },[])
 
   useEffect(() => {
     allDestinitions();
@@ -55,9 +56,9 @@ const CardCarousel = () => {
       setTimeout(() => setRightButtonActive(false), 300);
     }
   };
-  useEffect(() => {
-    setTimeout(() => {}, 3000);
-  });
+  // useEffect(() => {
+  //   setTimeout(() => {}, 3000);
+  // });
 
   useEffect(() => {
     const interval = setInterval(() => {

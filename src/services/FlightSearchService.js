@@ -36,9 +36,9 @@ class FlightSearchService {
     toCode,
     depDate,
     jwttoken,
-    airlines="",
+    airlines = "",
     refundable,
-    isDirect
+    isDirect,
   }) {
     try {
       const uri = `${this.flightUrl}/flights/ExpressSearch`;
@@ -63,7 +63,7 @@ class FlightSearchService {
         Parameters: {
           Airlines: airlines,
           GroupType: "",
-          Refundable: refundable?'Y':'N',
+          Refundable: refundable ? "Y" : "N",
           IsDirect: isDirect,
           IsStudentFare: false,
           IsNearbyAirport: false,
@@ -107,14 +107,14 @@ class FlightSearchService {
   async flightSmartPitcher({
     Amount,
     Index,
-    orderId=1,
+    orderId = 1,
     tui,
     clientId,
     Mode = "SS",
     Options = "A",
     Source = "SF",
     TripType = "ON",
-    jwtToken
+    jwtToken,
   }) {
     const resdata = {
       Trips: [{ Amount: Amount, Index: Index, OrderID: orderId, TUI: tui }],
@@ -124,39 +124,66 @@ class FlightSearchService {
       Source: Source,
       TripType: TripType,
     };
-    try{
-      const uri=`${this.flightUrl}/flights/SmartPricer`;
-      const response=await axios.post(uri,resdata,{
+    try {
+      const uri = `${this.flightUrl}/flights/SmartPricer`;
+      const response = await axios.post(uri, resdata, {
         headers: {
-          Authorization: `Bearer ${jwtToken}`
-        }
-      })
-      const data=await response.data;
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+      const data = await response.data;
       return data;
-    }catch(error){
-      console.error(error)
+    } catch (error) {
+      console.error(error);
     }
   }
 
-  async flightGetsPricer({tui,clientId,jwtToken}){
-    try{
-      const requestData={
-        "TUI": tui,
-        "ClientID": clientId
-      }
-      const uri=`${this.flightUrl}/flights/GetSPricer`
-      const response=await axios.post(uri,requestData,{
+  async flightGetsPricer({ tui, clientId, jwtToken }) {
+    try {
+      const requestData = {
+        TUI: tui,
+        ClientID: clientId,
+      };
+      const uri = `${this.flightUrl}/flights/GetSPricer`;
+      const response = await axios.post(uri, requestData, {
         headers: {
-          Authorization: `Bearer ${jwtToken}`
-        }
-      })
-      const data=await response.data;
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
+      const data = await response.data;
       return data;
-    }catch(error){
-      console.error(error)
+    } catch (error) {
+      console.error(error);
     }
   }
 
+  async flightSSRInformation({clientId,TUI,jwt}) {
+    try {
+      const uri = `${this.flightUrl}/flights/ssr`;
+      const payload = {
+        ClientID: clientId,
+        PaidSSR: true,
+        Source: "LV",
+        Trips: [
+          {
+            TUI: TUI,
+            Amount: 0,
+            OrderID: 1,
+            Index: "",
+          },
+        ],
+      };
+      const response=await axios.post(uri,payload,{
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
+      })
+      const data=response.data;
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 const flightSearchService = new FlightSearchService();

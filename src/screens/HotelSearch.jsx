@@ -7,11 +7,13 @@ import TopLoadingBar from "react-top-loading-bar";
 import { useLocation } from "react-router-dom";
 import { setMinutes } from "date-fns";
 import SidebarShimmer from "../components/Shimmers/SidebarShimmer";
+import { hotelService } from "../services/HotelService";
 
 const HotelSearch = () => {
-  const [isLoading,setIsLoading]=useState(false)
+  const [isLoading, setIsLoading] = useState(true);
   const loadingBarRef = useRef();
   const [loadingProgress, setLoadingProgress] = useState(0);
+  const [pageNo, setPageNo] = useState(0);
   const PriceRangeSlider = () => {
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(500);
@@ -40,7 +42,6 @@ const HotelSearch = () => {
           min={1000}
           max={10000}
           onChange={(value) => {
-            console.log(value);
             setMinPrice(value[0]);
             setMaxPrice(value[1]);
           }}
@@ -59,14 +60,20 @@ const HotelSearch = () => {
     );
   };
 
-  const location=useLocation();
-  const [path,setPath]=useState(location.pathname);
-  const params=new URLSearchParams(location.search)
-  const {date}=location.state
-  const searchLocation=params.get('location')
-  const adults=params.get('adults')
-  const children=params.get('child')
-  const rooms=params.get('rooms')
+  // Api Response Releted Data store - Start
+  const [hotels, setHotels] = useState([]);
+  const [searchResult, setSearchResult] = useState({});
+  const [fareData,setFareData]=useState({})
+  // Api Response Releted Data store - End
+
+  const location = useLocation();
+  const [path, setPath] = useState(location.pathname);
+  const params = new URLSearchParams(location.search);
+  const { date, selLocation } = location.state;
+  const adults = params.get("adults");
+  const children = params.get("child");
+  const rooms = params.get("rooms");
+  const [signatureData, setSignatureData] = useState(null);
 
   const Sidebar = ({ isOpen, toggleSidebar }) => {
     const [showAllProp, setShowAllProp] = useState(false);
@@ -85,7 +92,9 @@ const HotelSearch = () => {
     const handleShowProp = () => {
       setShowAllProp((prev) => !prev);
     };
-    return isLoading?(<SidebarShimmer/>):(
+    return isLoading ? (
+      <SidebarShimmer />
+    ) : (
       <aside
         className={`fixed top-0 left-0 h-full w-64 bg-white p-4 shadow-lg z-50 lg:z-0 lg:static lg:w-1/4 transition-transform duration-700 ease-in-out transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -278,17 +287,51 @@ const HotelSearch = () => {
     },
   ];
 
-  useEffect(()=>{
-    setIsLoading(prev=>true)
-    console.log(path)
+  const searchHotels = async () => {
+    setIsLoading(true);
+    setLoadingProgress(20);
+    try {
+      const signature = await hotelService.generateSignature();
+      setSignatureData(signature);
+      setLoadingProgress(50);
+      const init = await hotelService.initHotels({
+        location: selLocation,
+        dates: date,
+        adults: adults,
+        children: children,
+        rooms: rooms,
+        jwtToken: signature.Token,
+      });
+
+      const searchData = await hotelService.hotelContent({
+        searchId: init.searchId,
+        authToken: signature.Token,
+        limit: 100,
+        offset: pageNo === 0 ? -1 : pageNo * 30,
+      });
+
+      const fareData = await hotelService.hotelRate({
+        searchId: searchData.searchId,
+        authToken: signature.Token,
+      });
+
+
+      setFareData(fareData)
+      setSearchResult(searchData);
+      setHotels(searchData.hotels);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      setLoadingProgress(100);
+    }
+  };
+
+  useEffect(() => {
     loadingBarRef.current.continuousStart();
-    console.log("Location: " + searchLocation);
-    console.log("Date from-to: " + date);
-    console.log(`Child: ${children} adults: ${adults} rooms: ${rooms}`);
-    setLoadingProgress(40)
+    searchHotels();
     loadingBarRef.current.complete();
-    setIsLoading(prev=>false)
-  },[searchLocation,date,adults,children,rooms])
+  }, [selLocation, date, adults, children, rooms, pageNo]);
 
   return (
     <div className="bg-black/5">
@@ -296,35 +339,117 @@ const HotelSearch = () => {
         ref={loadingBarRef}
         progress={loadingProgress}
         height={5}
+        onLoaderFinished={() => setLoadingProgress(0)}
         color="#00008B"
       />
       <div className="px-16 py-12 bg-gradient-to-b from-blue-800 via-blue-900 to-blue-950">
-        <HotelSearchCard adl={adults} child={children} rm={rooms} dates={date} loc={searchLocation} />
+        <HotelSearchCard
+          adl={adults}
+          child={children}
+          rm={rooms}
+          dates={date}
+          loc={selLocation}
+        />
       </div>
       <div className="container mx-auto p-4 ">
         <div className="flex flex-col lg:flex-row">
           <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-          {isLoading?(<HotelContentShimmer/>):(<main className="w-full lg:w-3/4 p-4">
-            <div className="flex justify-between items-center mb-4">
-              <h1 className="text-2xl font-semibold">
-                2,049 properties in Europe
-              </h1>
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded lg:hidden"
-                onClick={toggleSidebar}
-              >
-                <IoFilter />
-              </button>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded hidden lg:block">
-                Top picks for your search
-              </button>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {properties.map((property, index) => (
-                <HotelCard key={index} {...property} />
-              ))}
-            </div>
-          </main>)}
+          {isLoading ? (
+            <HotelContentShimmer />
+          ) : (
+            <main className="w-full lg:w-3/4 p-4">
+              <div className="flex justify-between items-center mb-4">
+                <h1 className="text-2xl font-semibold">
+                  {searchResult?.total} Results in {searchResult?.locationName}
+                </h1>
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded lg:hidden"
+                  onClick={toggleSidebar}
+                >
+                  <IoFilter />
+                </button>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded hidden lg:block">
+                  Top picks for your search
+                </button>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {hotels.map((hotel, index) => {
+                  return (
+                    <HotelCard
+                      key={index}
+                      hotel={hotel}
+                      rate={fareData}
+                      searchData={searchResult}
+                      signatureData={signatureData}
+                    />
+                  );
+                })}
+              </div>
+            </main>
+          )}
+        </div>
+      </div>
+      <div class="flex flex-col items-center">
+        <span class="text-sm text-blue-700 dark:text-gray-400">
+          ({pageNo + 1} of {Math.floor(searchResult?.total / 30)})
+        </span>
+        <div class="inline-flex mt-2 xs:mt-0 space-x-2 my-5">
+          <button
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+              setPageNo((prev) => prev - 1);
+            }}
+            disabled={pageNo === 0}
+            class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-blue-600 focus:outline-none dark:hover:text-white"
+          >
+            <svg
+              class="w-3.5 h-3.5 me-2 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 10"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 5H1m0 0 4 4M1 5l4-4"
+              />
+            </svg>
+            Prev
+          </button>
+          <button
+            disabled={pageNo >= Math.floor(searchResult?.total / 100) - 1}
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+              setPageNo((prev) => prev + 1);
+            }}
+            class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-blue-600 focus:outline-none rounded-s dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          >
+            Next
+            <svg
+              class="w-3.5 h-3.5 ms-2 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 10"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>

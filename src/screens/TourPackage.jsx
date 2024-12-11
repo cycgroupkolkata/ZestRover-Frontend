@@ -81,7 +81,7 @@ const TourPackage = () => {
             <span className="text-gray-600 text-base">/Onwards Person</span>
           </p>
           <br />
-          <div className="prose space-y-2" dangerouslySetInnerHTML={{ __html: tour.content }}>
+          <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: tour.content }}>
             </div>
 
           {/* <h3 className="text-xl font-bold mb-2">Tour Itinerary</h3> */}

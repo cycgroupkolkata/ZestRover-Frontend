@@ -8,15 +8,18 @@ import HotelTravellers from "./HotelTravellers";
 import Datepicker from "react-tailwindcss-datepicker";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Listbox } from '@headlessui/react';
+import { Listbox } from "@headlessui/react";
 import FlightSearchCard from "./FlightSearchCard";
 import { flightSearchService } from "../services/FlightSearchService";
 
+import {AutoComplete} from 'primereact/autocomplete'
+import { toast } from "react-toastify";
+import { data } from "autoprefixer";
 
 const HotelSearchCard = ({
-  loc = "",
-  adl = 2,
-  child = 1,
+  loc = null,
+  adl = 1,
+  child = 0,
   rm = 1,
   dates = {
     startDate: new Date(Date.now()),
@@ -33,51 +36,86 @@ const HotelSearchCard = ({
 
   const [date, setDate] = useState(dates);
   const [location, setLocation] = useState(loc);
-  const [selectedLocation,setSelectedLocation]=useState('')
+  const [selectedLocation, setSelectedLocation] = useState(loc);
   const [suggestion, setSuggestion] = useState([]);
 
-
-  const handleInputChange = (e) => {
-    setLocation(e.target.value);
-  };
-
+  // const handleInputChange = (e) => {
+  //   setLocation(e.target.value);
+  // };
 
   const handleSearch = () => {
+    if(selectedLocation===null){
+      toast.warning("Select a location/hotel")
+      return;
+    }
+    if(adults===0 || room===0){
+      toast.warning("Fill guest details")
+      return;
+    }
     navigate(
-      `/hotel-search?location=${location}&adults=${adults}&child=${children}&rooms=${room}`,
+      `/hotel-search?adults=${adults}&child=${children}&rooms=${room}`,
       {
         state: {
           date: date,
+          selLocation: selectedLocation
         },
       }
     );
   };
 
-  useEffect(() => {
-    if (location.length > 2) {
-      const fetchSuggestions = async () => {
-        try {
-          const response = await fetch(`https://travelportalapi.benzyinfotech.com/api/content/autosuggest?term=${location}`);
-          const data = await response.json();
-          console.log(data)
-          setSuggestion(data);
-          // const data=await flightSearchService.generateSignature();
-        } catch (error) {
-          console.error('Error fetching suggestion:', error);
-        }
-      };
+  
+  // useEffect(() => {
+  //   if (location.length > 2) {
+  //     const fetchSuggestions = async () => {
+  //       try {
+  //         const response = await fetch(
+  //           `https://travelportalapi.benzyinfotech.com/api/content/autosuggest?term=${location}`
+  //         );
+  //         const data = await response.json();
+  //         if (data.status === "success") {
+  //           const sugLocation = await data.locations;
+  //           setSuggestion(sugLocation);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching suggestion:", error);
+  //       }
+  //     };
 
-      fetchSuggestions();
-    } else {
-      setSuggestion([]);
-    }
-  }, [location]);
+  //     fetchSuggestions();
+  //   } else {
+  //     setSuggestion([]);
+  //   }
+  // }, []);
 
   const formatDate = (dateString) => {
     const options = { month: "short", day: "numeric" }; // Only show abbreviated month and day
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", options);
   };
+
+  const handleQueryChage=(e)=>{
+    const query=e.query;
+    const fetchSuggestions = async () => {
+      try {
+        const response = await fetch(
+          `https://travelportalapi.benzyinfotech.com/api/content/autosuggest?term=${query}`
+        );
+        const data = await response.json();
+        if (data.status === "success") {
+          const sugLocation = await data.locations;
+          setSuggestion(sugLocation);
+        }
+      } catch (error) {
+        console.error("Error fetching suggestion:", error);
+      }
+    };
+
+    fetchSuggestions();
+  }
+
+  const handleSelection=(obj)=>{
+    setSelectedLocation(obj)
+  }
 
   return (
     <>
@@ -87,52 +125,65 @@ const HotelSearchCard = ({
           <label className="text-sm font-semibold text-gray-800">
             Location
           </label>
-          <input
+          {/* <input
             value={location}
             onChange={handleInputChange}
             type="text"
             placeholder="Where are you going?"
             className="text-sm text-gray-500 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+          /> */}
+
+          <AutoComplete
+          value={selectedLocation}
+            completeMethod={handleQueryChage}
+            suggestions={suggestion}
+            field="name"
+            placeholder="Where are you going?"
+            onChange={(e)=>handleSelection(e.value)}
+            className="border"
           />
-        </div>
 
+          </div>
 
-
-      {/* Demo Start */}
-      <div className="flex flex-col w-full md:w-auto md:flex-1 pb-4 md:pb-0 border-b md:border-none text-left">
-      <label className="text-sm font-semibold text-gray-800">Location</label>
-      <Listbox value={selectedLocation} onChange={setSelectedLocation}>
-        {({ open }) => (
-          <>
-            <input
-              value={location}
-              onChange={handleInputChange}
-              type="text"
-              placeholder="Where are you going?"
-              className="text-sm text-gray-500 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-            />
-            {open && suggestion.length > 0 && (
-              <Listbox.Options className="absolute bg-white border border-gray-300 rounded-md shadow-lg mt-1 w-full max-h-60 overflow-auto z-10">
-                {suggestion.map((suggestion, index) => (
-                  <Listbox.Option key={index} value={suggestion} as="div">
-                    {({ active }) => (
-                      <div
-                        className={`p-2 text-sm ${active ? 'bg-blue-500 text-white' : 'text-gray-700'}`}
-                      >
-                        {suggestion}
-                      </div>
-                    )}
-                  </Listbox.Option>
-                ))}
-              </Listbox.Options>
+        {/* Locatio Demo Start */}
+        {/* <div className="flex flex-col w-full md:w-auto md:flex-1 pb-4 md:pb-0 border-b md:border-none text-left">
+          <label className="text-sm font-semibold text-gray-800">
+            Location
+          </label>
+          <Listbox value={selectedLocation} onChange={setSelectedLocation}>
+            {({ open }) => (
+              <>
+                <input
+                  value={location}
+                  onChange={handleInputChange}
+                  type="text"
+                  placeholder="Where are you going?"
+                  className="text-sm text-gray-500 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+                />
+                {suggestion.length > 0 && (
+                  <Listbox.Options className="absolute bg-white border border-gray-300 rounded-md shadow-lg mt-1 w-full max-h-60 overflow-auto z-10">
+                    {suggestion.map((sug, index) => (
+                      <Listbox.Option key={index} value={sug} as="div">
+                        {({ active }) => (
+                          <div
+                            className={`p-2 text-sm ${
+                              active
+                                ? "bg-blue-500 text-white"
+                                : "text-gray-700"
+                            }`}
+                          >
+                            {sug.name}
+                          </div>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                )}
+              </>
             )}
-          </>
-        )}
-      </Listbox>
-    </div>
-      {/* Demo END */}
-
-
+          </Listbox>
+        </div> */}
+        {/* Location Demo END */}
 
         {/* Divider for larger screens */}
         <div className="hidden md:block border-l border-gray-300 h-10"></div>
@@ -225,3 +276,4 @@ const HotelSearchCard = ({
 };
 
 export default HotelSearchCard;
+

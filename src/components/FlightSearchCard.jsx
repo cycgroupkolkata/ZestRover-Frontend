@@ -20,6 +20,8 @@ import AirportAutoComplete from "./AirportAutoComplete";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import { Calendar } from "primereact/calendar";
+import { InputSwitch } from 'primereact/inputswitch';
 
 const classes = [
   { id: 1, name: "Economy" },
@@ -60,15 +62,13 @@ const FlightSearchCard = ({
   const [isRotated, setIsRotated] = useState(false);
   const navigate = useNavigate();
 
-  //   const formatDate = (date) => {
-  //     const newDate = new Date(date == "" ? new Date() : date);
-  //     return newDate.toLocaleDateString("en-US", {
-  //       weekday: "long", // "Friday"
-  //       day: "2-digit", // "22"
-  //       month: "short", // "Nov"
-  //       year: "numeric", // "2024"
-  //     });
-  //   };
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
   const handleExchangeAirport = () => {
     const fromAirport = selectedFrom;
@@ -103,8 +103,6 @@ const FlightSearchCard = ({
         },
       }
     );
-
-
   };
 
   return (
@@ -116,17 +114,12 @@ const FlightSearchCard = ({
             htmlFor="Toggle1"
             className="inline-flex items-center space-x-4 cursor-pointer text-gray-800"
           >
-            <span className="relative">
-              <input
-                value={isReturn}
-                onChange={() => setIsReturn(!isReturn)}
-                id="Toggle1"
-                type="checkbox"
-                className="hidden peer"
-              />
+            <InputSwitch checked={isReturn} onChange={(e) => setIsReturn(e.value)} />
+
+            {/* <span className="relative">
               <div className="w-10 h-6 rounded-full shadow-inner bg-gray-300 peer-checked:bg-blue-500"></div>
               <div className="absolute inset-y-0 left-0 w-4 h-4 m-1 rounded-full shadow bg-gray-100 peer-checked:right-0 peer-checked:left-auto"></div>
-            </span>
+            </span> */}
             <span>Return</span>
           </label>
         </div>
@@ -277,12 +270,20 @@ const FlightSearchCard = ({
           {/* Depart */}
           <div className="w-full sm:flex-1 text-left">
             <div className="text-sm font-semibold text-gray-800">Depart</div>
-            <input
+            {/* <input
               onChange={(event) => setDepartureDate(event.target.value)}
               value={departureDate}
               type="date"
               className="text-lg bg-transparent outline-none focus:outline-none text-gray-500"
+            /> */}
+            <Calendar
+              id="buttondisplay"
+              value={new Date(departureDate)}
+              onChange={(e) => setDepartureDate(formatDate(e.value))}
+              showIcon
+              placeholder="ex: dep date"
             />
+
             {/* {formatDate(departureDate)} */}
             <hr className="sm:hidden my-2" />
           </div>
@@ -291,13 +292,21 @@ const FlightSearchCard = ({
           <div className="w-full sm:flex-1 text-left">
             <div className="text-sm font-semibold text-gray-800">Return</div>
             <div className="text-sm text-gray-500">
-              <input
+              {/* <input
                 disabled={!isReturn}
                 value={returnDate}
                 onChange={(e) => setReturnDate(e.target.value)}
                 type="date"
                 className="text-lg bg-transparent outline-none focus:outline-none text-gray-500"
-              />
+              /> */}
+              <Calendar
+              id="buttondisplay"
+              value={new Date(returnDate)}
+              onChange={(e) => setReturnDate(formatDate(e.value))}
+              showIcon
+              disabled={!isReturn}
+              placeholder="ex: rtn date"
+            />
             </div>
             <hr className="sm:hidden my-2" />
           </div>
